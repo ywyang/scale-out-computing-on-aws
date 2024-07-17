@@ -1,1 +1,0 @@
-# scale-out-computing-on-aws

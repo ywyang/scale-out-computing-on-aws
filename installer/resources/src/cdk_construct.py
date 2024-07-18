@@ -1852,7 +1852,8 @@ class SOCAInstall(Stack):
                     self,
                     "ESServiceLinkedRole",
                     #aws_service_name=f"es.{Aws.URL_SUFFIX}",
-                    aws_service_name=f"es.amazonaws.com",
+                    #aws_service_name=f"es.amazonaws.com",
+                    aws_service_name="opensearchservice.amazonaws.com",
                     description="Role for ES to access resources in the VPC",
                 )
                 self.soca_resources["os_domain"].node.add_dependency(

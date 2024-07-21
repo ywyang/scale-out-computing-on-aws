@@ -26,6 +26,7 @@ function get_secret {
     MAX_ATTEMPT=10
     CURRENT_ATTEMPT=0
     SLEEP_INTERVAL=180
+    # need region 
     command="$AWS secretsmanager get-secret-value --secret-id $SOCA_CONFIGURATION --query SecretString --output text"
     while ! secret=$($command); do
         ((CURRENT_ATTEMPT=CURRENT_ATTEMPT+1))
@@ -49,11 +50,10 @@ crontab -r
 # We probe the S3 endpoint to get the bucket-region header
 # which contains the underlying S3 region for the bucket
 # Each partition is unique however and we must be partition-aware
-if [[ ${AWS_DEFAULT_REGION} =~ ^us-gov-[a-z]+-[0-9]+$ ]]; then
-  S3_BUCKET_REGION=$(curl -s --head "${SOCA_INSTALL_BUCKET}".s3.us-gov-west-1.amazonaws.com | grep bucket-region | awk '{print $2}' | tr -d '\r\n')
-else
-  S3_BUCKET_REGION=$(curl -s --head "${SOCA_INSTALL_BUCKET}".s3.amazonaws.com | grep bucket-region | awk '{print $2}' | tr -d '\r\n')
-fi
+
+S3_BUCKET_REGION=$(aws s3api get-bucket-location --bucket "${SOCA_INSTALL_BUCKET}" | grep bucket-region | awk '{print $2}' | tr -d '\r\n')
+
+
 # Retrieve SOCA configuration under soca.tar.gz and extract it on /apps/
 $AWS --region "${S3_BUCKET_REGION}" s3 cp s3://"$SOCA_INSTALL_BUCKET"/"$SOCA_INSTALL_BUCKET_FOLDER"/soca.tar.gz /root
 mkdir -p /apps/soca/"$SOCA_CONFIGURATION"

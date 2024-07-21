@@ -51,7 +51,7 @@ crontab -r
 # which contains the underlying S3 region for the bucket
 # Each partition is unique however and we must be partition-aware
 
-S3_BUCKET_REGION=$(aws s3api get-bucket-location --bucket "${SOCA_INSTALL_BUCKET}" | grep bucket-region | awk '{print $2}' | tr -d '\r\n')
+S3_BUCKET_REGION=$(aws s3api get-bucket-location --bucket "${SOCA_INSTALL_BUCKET}" | grep LocationConstraint | awk '{print $2}' | tr -d '\r\n')
 
 
 # Retrieve SOCA configuration under soca.tar.gz and extract it on /apps/

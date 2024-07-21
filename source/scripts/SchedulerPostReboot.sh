@@ -51,6 +51,12 @@ crontab -r
 # which contains the underlying S3 region for the bucket
 # Each partition is unique however and we must be partition-aware
 
+#update aws cli version
+$(rm  /usr/bin/aws && rm  /usr/bin/aws_completer && rm -rf /usr/bin/v2)
+$(curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/root/awscliv2.zip")
+$(unzip /root/awscliv2.zip)
+$(/root/aws/install -i /usr/bin -b /usr/bin)
+
 S3_BUCKET_REGION=$(aws s3api get-bucket-location --bucket "${SOCA_INSTALL_BUCKET}" | grep LocationConstraint | awk '{print $2}' | tr -d '\r\n')
 
 

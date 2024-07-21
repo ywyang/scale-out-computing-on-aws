@@ -248,7 +248,8 @@
             "Action": [
                 "s3:GetObject",
                 "s3:ListBucket",
-                "s3:PutObject"
+                "s3:PutObject",
+                "s3:GetBucketLocation"
             ],
             "Resource": [
                 "arn:aws-cn:s3:::%%BUCKET%%/*",

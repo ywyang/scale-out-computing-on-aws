@@ -53,7 +53,7 @@ crontab -r
 
 
 
-S3_BUCKET_REGION=$(aws s3api get-bucket-location --bucket "${SOCA_INSTALL_BUCKET}" --region cn-northwest-1| grep LocationConstraint | awk '{print $2}' | tr -d '\r\n')
+S3_BUCKET_REGION=$(aws s3api get-bucket-location --bucket "${SOCA_INSTALL_BUCKET}" --region cn-northwest-1| grep LocationConstraint | awk '{print $2}' | tr -d '"\r\n')
 
 
 # Retrieve SOCA configuration under soca.tar.gz and extract it on /apps/
